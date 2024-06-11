@@ -1,0 +1,34 @@
+package com.tutorial.spring.global.common.response;
+
+import lombok.Builder;
+
+/**
+ * 공통 API Response
+ */
+@Builder
+public class CommonResponse<T> {
+
+    // 응답 코드로 StatusCode에 정의됨
+    private int statusCode = 200;
+
+    // 응답 메세지
+    private final String message;
+
+    // 결과
+    private T data;
+
+    /**
+     * 필수값 확인을 위한 builder 재정의
+     *
+     * @param statusCode
+     * @param message
+     * @param data
+     */
+    public CommonResponseBuilder builder(int statusCode, String message, T data) {
+        //응답 메세지가 필수임
+        if(message == null || "".equals(message))
+            throw new IllegalArgumentException("response 메세지 누락");
+
+        return new CommonResponseBuilder().statusCode(statusCode).message(message).data(data);
+    }
+}
