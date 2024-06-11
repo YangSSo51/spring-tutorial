@@ -10,7 +10,7 @@ import lombok.Builder;
 public class CommonResponse<T> {
 
     // 응답 코드로 StatusCode에 정의됨
-    private int statusCode = 200;
+    private final int statusCode;
 
     // 응답 메세지
     private final String message;
