@@ -1,5 +1,6 @@
 package com.tutorial.spring.global.common.response;
 
+import io.micrometer.common.util.StringUtils;
 import lombok.Builder;
 
 /**
@@ -26,8 +27,9 @@ public class CommonResponse<T> {
      */
     public CommonResponseBuilder builder(int statusCode, String message, T data) {
         //응답 메세지가 필수임
-        if(message == null || "".equals(message))
+        if(StringUtils.isEmpty(message)) {
             throw new IllegalArgumentException("response 메세지 누락");
+        }
 
         return new CommonResponseBuilder().statusCode(statusCode).message(message).data(data);
     }
