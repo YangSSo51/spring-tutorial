@@ -8,7 +8,7 @@ public class StatusCode {
     //성공 응답
     public static final int OK = 200;
     public static final int CREATED = 201;
-    public static final int Accepted = 202;
+    public static final int ACCEPTED = 202;
     public static final int NO_CONTENT = 204;
 
     //리다이렉션 메세지
