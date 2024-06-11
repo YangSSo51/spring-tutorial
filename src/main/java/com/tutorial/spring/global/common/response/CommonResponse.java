@@ -25,7 +25,7 @@ public class CommonResponse<T> {
      * @param message
      * @param data
      */
-    public CommonResponseBuilder builder(int statusCode, String message, T data) {
+    public CommonResponseBuilder builder(final int statusCode,final String message,final T data) {
         //응답 메세지가 필수임
         if(StringUtils.isEmpty(message)) {
             throw new IllegalArgumentException("response 메세지 누락");
