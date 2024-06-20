@@ -1,7 +1,9 @@
 package com.tutorial.spring.domain.user.service;
 
-import org.springframework.stereotype.Service;
+import com.tutorial.spring.domain.user.dto.request.UserJoinRequest;
+import org.springframework.transaction.annotation.Transactional;
 
-@Service
 public interface UserService {
+    @Transactional
+    void joinUser(UserJoinRequest userJoinRequest);
 }

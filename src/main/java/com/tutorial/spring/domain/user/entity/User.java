@@ -1,17 +1,21 @@
 package com.tutorial.spring.domain.user.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDate;
 
+@Entity
 @Getter
 @Setter
-@Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "common_user")
+@EntityListeners(AuditingEntityListener.class)
 public class User {
 
     @Id
@@ -22,6 +26,7 @@ public class User {
     private String userPassword;
 
     @CreatedDate
+    @Column(updatable = false)
     private LocalDate joinDate;
 
     @LastModifiedDate

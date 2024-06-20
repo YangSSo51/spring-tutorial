@@ -19,9 +19,8 @@ public class UserController {
 
     @PostMapping("/join")
     @Operation(summary = "회원가입",description = "일반 회원가입")
-    public ResponseEntity<String> joinUser(@Valid @RequestBody UserJoinRequest user){
-        System.out.println(user.toString());
-
+    public ResponseEntity<String> joinUser(@Valid @RequestBody UserJoinRequest userJoinRequest){
+        userService.joinUser(userJoinRequest);
         return new ResponseEntity<String>("ok", HttpStatus.CREATED);
     }
 }
