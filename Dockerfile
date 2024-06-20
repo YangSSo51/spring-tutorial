@@ -2,7 +2,7 @@ FROM openjdk:17
 
 CMD ["./gradlew", "clean", "build"]
 
-ARG JAR_FILE=build/libs/*.jar
+ARG JAR_FILE=build/libs/spring-0.0.1-SNAPSHOT.jar
 
 COPY ${JAR_FILE} app.jar
 
