@@ -1,7 +1,10 @@
 package com.tutorial.spring.domain.user.controller;
 
 import com.tutorial.spring.domain.user.dto.request.UserJoinRequest;
+import com.tutorial.spring.domain.user.entity.User;
 import com.tutorial.spring.domain.user.service.UserService;
+import com.tutorial.spring.global.common.code.StatusCode;
+import com.tutorial.spring.global.common.response.CommonResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -19,8 +22,11 @@ public class UserController {
 
     @PostMapping("/join")
     @Operation(summary = "회원가입",description = "일반 회원가입")
-    public ResponseEntity<String> joinUser(@Valid @RequestBody UserJoinRequest userJoinRequest){
-        userService.joinUser(userJoinRequest);
-        return new ResponseEntity<String>("ok", HttpStatus.CREATED);
+    public ResponseEntity<CommonResponse<?>> joinUser(@Valid @RequestBody UserJoinRequest userJoinRequest){
+        User user = userService.joinUser(userJoinRequest);
+
+        CommonResponse<?> response = new CommonResponse<>(StatusCode.CREATED,"회원가입 성공");
+
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 }

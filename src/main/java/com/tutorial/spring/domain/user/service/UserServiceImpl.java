@@ -16,14 +16,14 @@ public class UserServiceImpl implements UserService{
 
     @Override
     @Transactional
-    public void joinUser(UserJoinRequest userJoinRequest){
+    public User joinUser(UserJoinRequest userJoinRequest){
         User user = User.builder()
                 .userEmail(userJoinRequest.getUserEmail())
                 .userPassword(userJoinRequest.getUserPassword())
                 .build();
 
         try {
-            userRepository.save(user);
+            return userRepository.save(user);
         }catch (Exception e){
             log.debug(e.getMessage());
             throw new RuntimeException();
