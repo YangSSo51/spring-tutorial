@@ -1,5 +1,7 @@
 package com.tutorial.spring.global.common.response;
 
+import com.tutorial.spring.global.common.code.StatusCode;
+import com.tutorial.spring.global.common.message.ResponseMessage;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -10,16 +12,16 @@ import lombok.Getter;
 @Getter
 public class CommonResponse<T> {
 
-    // 응답 코드로 StatusCode에 정의됨
-    private final int statusCode;
+    // 응답 코드
+    private final StatusCode statusCode;
 
     // 응답 메세지
-    private final String message;
+    private final ResponseMessage message;
 
     // 결과
     private T data;
 
-    public static <T> CommonResponse<T> success(int statusCode, String message, T data) {
+    public static <T> CommonResponse<T> success(StatusCode statusCode, ResponseMessage message, T data) {
         return CommonResponse.<T>builder()
                 .statusCode(statusCode)
                 .message(message)
@@ -27,7 +29,7 @@ public class CommonResponse<T> {
                 .build();
     }
 
-    public static <T> CommonResponse<T> error(int statusCode, String message) {
+    public static <T> CommonResponse<T> error(StatusCode statusCode, ResponseMessage message) {
         return CommonResponse.<T>builder()
                 .statusCode(statusCode)
                 .message(message)
