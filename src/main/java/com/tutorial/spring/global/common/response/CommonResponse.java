@@ -16,7 +16,7 @@ public class CommonResponse<T> {
     private final StatusCode statusCode;
 
     // 응답 메세지
-    private final ResponseMessage message;
+    private final String message;
 
     // 결과
     private T data;
@@ -24,7 +24,7 @@ public class CommonResponse<T> {
     public static <T> CommonResponse<T> success(StatusCode statusCode, ResponseMessage message, T data) {
         return CommonResponse.<T>builder()
                 .statusCode(statusCode)
-                .message(message)
+                .message(message.getMessage())
                 .data(data)
                 .build();
     }
@@ -32,7 +32,22 @@ public class CommonResponse<T> {
     public static <T> CommonResponse<T> error(StatusCode statusCode, ResponseMessage message) {
         return CommonResponse.<T>builder()
                 .statusCode(statusCode)
+                .message(message.getMessage())
+                .build();
+    }
+
+    public static <T> CommonResponse<T> error(StatusCode statusCode, String message) {
+        return CommonResponse.<T>builder()
+                .statusCode(statusCode)
                 .message(message)
+                .build();
+    }
+
+    public static <T> CommonResponse<T> error(StatusCode statusCode, String message,T data) {
+        return CommonResponse.<T>builder()
+                .statusCode(statusCode)
+                .message(message)
+                .data(data)
                 .build();
     }
 }
