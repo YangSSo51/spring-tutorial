@@ -5,6 +5,7 @@ import com.tutorial.spring.domain.user.entity.User;
 import com.tutorial.spring.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,13 +14,14 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 public class UserServiceImpl implements UserService{
     private final UserRepository userRepository;
+    private final BCryptPasswordEncoder passwordEncoder;
 
     @Override
     @Transactional
     public User joinUser(UserJoinRequest userJoinRequest){
         User user = User.builder()
                 .userEmail(userJoinRequest.getUserEmail())
-                .userPassword(userJoinRequest.getUserPassword())
+                .userPassword(passwordEncoder.encode(userJoinRequest.getUserPassword()))
                 .build();
 
         try {
