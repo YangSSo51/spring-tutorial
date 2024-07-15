@@ -7,4 +7,6 @@ import org.springframework.transaction.annotation.Transactional;
 public interface UserService {
     @Transactional
     User joinUser(UserJoinRequest userJoinRequest);
+
+    boolean doesEmailExist(String email);
 }

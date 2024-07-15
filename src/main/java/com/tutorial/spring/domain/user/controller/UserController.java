@@ -9,6 +9,7 @@ import com.tutorial.spring.global.common.response.CommonResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,5 +28,13 @@ public class UserController {
         User user = userService.joinUser(userJoinRequest);
         CommonResponse<?> response = CommonResponse.success(StatusCode.CREATED, ResponseMessage.JOIN_SUCCESS, user);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
+
+    @PostMapping("/check-email/{email}")
+    @Operation(summary = "이메일 중복 확인",description = "이미 가입된 이메일인지 확인")
+    public ResponseEntity<CommonResponse<?>> checkEmail(@Valid @Email @PathVariable("email") String email){
+        boolean isExist = userService.doesEmailExist(email);
+        CommonResponse<?> response = CommonResponse.success(StatusCode.OK, isExist? ResponseMessage.EMAIL_ALREADY_EXISTS : ResponseMessage.EMAIL_AVAILABLE);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
