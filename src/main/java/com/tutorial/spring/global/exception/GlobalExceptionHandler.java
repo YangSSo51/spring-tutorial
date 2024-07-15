@@ -11,7 +11,9 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.HandlerMethodValidationException;
-import java.util.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Slf4j
 @RestControllerAdvice
@@ -21,11 +23,12 @@ public class GlobalExceptionHandler {
     public ResponseEntity<?> handleValidationExceptions(HandlerMethodValidationException ex) {
         log.error("ValidationExceptions occurred", ex);
 
-        List<String> errors = new ArrayList<String>();
-        ex.getDetailMessageArguments();
-        for(Object message : ex.getDetailMessageArguments()) {
-            errors.add(message.toString());
-        }
+        Map<String, String> errors = new HashMap<>();
+        ex.getAllValidationResults().forEach((result) ->{
+            result.getResolvableErrors().forEach(error->{
+                errors.put("valid 에러 발생",error.getDefaultMessage());
+            });
+        });
 
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
