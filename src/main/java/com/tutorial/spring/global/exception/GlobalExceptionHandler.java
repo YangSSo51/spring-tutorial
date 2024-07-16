@@ -10,12 +10,33 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.HandlerMethodValidationException;
+
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
+    @ExceptionHandler(HandlerMethodValidationException.class)
+    public ResponseEntity<CommonResponse<?>> handleValidationExceptions(HandlerMethodValidationException e) {
+        log.error("ValidationExceptions occurred", e);
+
+        Map<String, String> errors = new HashMap<>();
+        AtomicInteger errorIdx = new AtomicInteger(1);
+
+        e.getAllValidationResults().forEach((result) ->{
+            result.getResolvableErrors().forEach(error->{
+                errors.put("validation_error_" + errorIdx.getAndIncrement(),error.getDefaultMessage());
+            });
+        });
+
+        CommonResponse<?> response = CommonResponse.error(StatusCode.BAD_REQUEST, e.getDetailMessageCode(),errors);
+        return new ResponseEntity<>(response, e.getStatusCode());
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<CommonResponse<?>> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         log.error("MethodArgumentNotValidException occurred", e);

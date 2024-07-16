@@ -31,4 +31,9 @@ public class UserServiceImpl implements UserService{
             throw new RuntimeException();
         }
     }
+
+    @Override
+    public boolean doesEmailExist(final String email) {
+        return userRepository.existsByUserEmail(email);
+    }
 }

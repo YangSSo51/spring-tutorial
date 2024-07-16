@@ -21,6 +21,13 @@ public class CommonResponse<T> {
     // 결과
     private T data;
 
+    public static <T> CommonResponse<T> success(StatusCode statusCode, ResponseMessage message) {
+        return CommonResponse.<T>builder()
+                .statusCode(statusCode)
+                .message(message.getMessage())
+                .build();
+    }
+
     public static <T> CommonResponse<T> success(StatusCode statusCode, ResponseMessage message, T data) {
         return CommonResponse.<T>builder()
                 .statusCode(statusCode)
